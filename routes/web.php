@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JadwalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('halaman_utama');
 })->middleware(['auth'])->name('dashboard');
+
+Route::resource('jadwals', JadwalController::class);
 
 require __DIR__.'/auth.php';

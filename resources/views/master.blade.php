@@ -19,7 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ URL::asset('admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 </head>
 
 <body id="page-top">
@@ -40,13 +40,13 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-            
-            <li class="nav-item active">
-                <a class="nav-link ml-4" href="index.html">
+
+            <li class="nav-item">
+                <a class="nav-link ml-4" href="/dashboard">
                     <span>Home</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link ml-4" href="index.html">
+                <a class="nav-link ml-4" href="{{ route('jadwals.index') }}">
                     <span>Jadwal</span></a>
             </li>
             <li class="nav-item">
@@ -60,8 +60,8 @@
             <li class="nav-item">
                 <a class="nav-link ml-4" href="index.html">
                     <span>Service</span></a>
-            </li>           
-{{-- 
+            </li>
+            {{--
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="charts.html">
@@ -184,7 +184,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name
+                                    }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{ URL::asset('admin/img/undraw_profile.svg') }}">
                             </a>
@@ -194,7 +195,7 @@
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
-                                </a>                                                                
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -208,7 +209,8 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                {{-- <!-- Begin Page Content -->
+                {{--
+                <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
@@ -541,38 +543,9 @@
 
                 <!-- Page Heading -->
                 <div class="container-fluid">
-                    <div class="d-sm-flex align-items-center mb-5">
-                        <h1 class="h3 mb-0 text-gray-800">Halaman Utama</h1>                       
-                    </div>
-                    <div class="mt-5">
-                        <table class="table">
-                            <tr class="mb-3">
-                                <td>Nama</td>
-                                <td>:</td>
-                                <td>{{ Auth::user()->name }}</td>
-                            </tr>
-                            <tr class="mb-3">
-                                <td>Email</td>
-                                <td>:</td>
-                                <td>{{ Auth::user()->email }}</td>
-                            </tr>
-                            <tr class="mb-3">
-                                <td>Rank</td>
-                                <td>:</td>
-                                <td>{{ Auth::user()->rank }}</td>
-                            </tr>
-                            <tr class="mb-3">
-                                <td>No HP</td>
-                                <td>:</td>
-                                <td>{{ Auth::user()->no_handphone }}</td>
-                            </tr>
-                            <tr class="mb-3">
-                                <td>Jabatan</td>
-                                <td>:</td>
-                                <td>{{ Auth::user()->jabatan }}</td>
-                            </tr>
-                        </table>                                                                       
-                    </div>
+
+                    @yield('content')
+
                 </div>
 
             </div>
@@ -635,6 +608,12 @@
     <!-- Page level custom scripts -->
     <script src="{{ URL::asset('admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ URL::asset('admin/js/demo/chart-pie-demo.js') }}"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js">
+    </script>
+
+    @yield('script')
+    @include('sweetalert::alert')
 
 </body>
 
