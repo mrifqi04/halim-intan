@@ -184,7 +184,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{ URL::asset('admin/img/undraw_profile.svg') }}">
                             </a>
@@ -208,7 +208,7 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
+                {{-- <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
@@ -537,7 +537,43 @@
                     </div>
 
                 </div>
-                <!-- /.container-fluid -->
+                <!-- /.container-fluid --> --}}
+
+                <!-- Page Heading -->
+                <div class="container-fluid">
+                    <div class="d-sm-flex align-items-center mb-5">
+                        <h1 class="h3 mb-0 text-gray-800">Halaman Utama</h1>                       
+                    </div>
+                    <div class="mt-5">
+                        <table class="table">
+                            <tr class="mb-3">
+                                <td>Nama</td>
+                                <td>:</td>
+                                <td>{{ Auth::user()->name }}</td>
+                            </tr>
+                            <tr class="mb-3">
+                                <td>Email</td>
+                                <td>:</td>
+                                <td>{{ Auth::user()->email }}</td>
+                            </tr>
+                            <tr class="mb-3">
+                                <td>Rank</td>
+                                <td>:</td>
+                                <td>{{ Auth::user()->rank }}</td>
+                            </tr>
+                            <tr class="mb-3">
+                                <td>No HP</td>
+                                <td>:</td>
+                                <td>{{ Auth::user()->no_handphone }}</td>
+                            </tr>
+                            <tr class="mb-3">
+                                <td>Jabatan</td>
+                                <td>:</td>
+                                <td>{{ Auth::user()->jabatan }}</td>
+                            </tr>
+                        </table>                                                                       
+                    </div>
+                </div>
 
             </div>
             <!-- End of Main Content -->

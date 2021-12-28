@@ -14,7 +14,11 @@ class UpdateTableUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->string('rank');
+            $table->string('no_handphone');
+            $table->string('jabatan');
+            $table->foreignId('role_id');
+            $table->foreign('role_id')->references('id')->on('roles')->cascadeOnDelete();
         });
     }
 
