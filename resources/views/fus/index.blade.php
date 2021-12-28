@@ -12,11 +12,11 @@
                 <th scope="col">No</th>
                 <th scope="col">No Polisi</th>
                 <th scope="col">Model</th>
-                <th scope="col">No Chassis</th>                               
-                <th scope="col">Nama Customer</th>    
+                <th scope="col">No Chassis</th>
+                <th scope="col">Nama Customer</th>
                 <th scope="col">No Telp</th>
                 <th scope="col">Alamat</th>
-                <th scope="col">Jadwal FUS</th>                
+                <th scope="col">Catatan</th>
                 <th scope="col">
                     <button class="btn btn-success rounded" data-toggle="modal"
                         data-target="#tambah-jadwal">Tambah</button>
@@ -24,48 +24,82 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($jadwals as $key => $jadwal)           
-            <tr class="data-row text-dark" style="background-color: {{ ($key + 1) % 2 == 0 ?  '#b4f2cd' : ''}}">                
+            @foreach ($fuses as $key => $fus)
+            <tr class="data-row text-dark" style="background-color: {{ ($key + 1) % 2 == 0 ?  '#b4f2cd' : ''}}">
                 <td class="align-middle">{{ $key + 1 }}</td>
-                <td class="align-middle no_polisi">{{ $jadwal->no_polisi }}</td>
-                <td class="align-middle model">{{ $jadwal->model }}</td>
-                <td class="align-middle word-break no_chassis">{{ $jadwal->no_chassis }}</td>
-                <td class="align-middle word-break nama_customer">{{ $jadwal->nama_customer }}</td>
-                <td class="align-middle word-break no_telp">{{ $jadwal->no_telp }}</td>
-                <td class="align-middle word-break alamat">{{ $jadwal->alamat }}</td>
-                <td class="align-middle word-break jadwal_fus">{{ $jadwal->jadwal_fus }}</td>
+                <td class="align-middle no_polisi">{{ $fus->no_polisi }}</td>
+                <td class="align-middle model">{{ $fus->model }}</td>
+                <td class="align-middle word-break no_chassis">{{ $fus->no_chassis }}</td>
+                <td class="align-middle word-break nama_customer">{{ $fus->nama_customer }}</td>
+                <td class="align-middle word-break no_telp">{{ $fus->no_telp }}</td>
+                <td class="align-middle word-break alamat">{{ $fus->alamat }}</td>
+                <td class="align-middle word-break catatan">{{ $fus->catatan }}</td>
                 <td class="align-middle">
-                  <button type="button" class="btn btn-primary" id="edit-item" data-item-id="{{ $jadwal->id }}">edit</button>
-                  <button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirm{{$jadwal->id}}">Hapus</button>
-                  <div class="modal fade" id="deleteConfirm{{$jadwal->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel">Hapus</h4>
-                            </div>
-                            <div class="modal-body">
-                                Apakah anda yakin ingin menghapus item ini ?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default"
-                                    data-dismiss="modal">Close</button>
-                                {!! Form::open([
-                                'method' => 'DELETE',
-                                'url' => ['/jadwals', $jadwal->id],
-                                'style' => 'display:inline'
-                                ]) !!}
-                                {!! Form::button('Delete', array(
-                                'type' => 'submit',
-                                'class' => 'btn btn-danger btn-sm',
-                                'title' => 'Confirm Delete'
-                                )) !!}
-                                {!! Form::close() !!}
+                    <button type="button" class="btn btn-primary" id="edit-item"
+                        data-item-id="{{ $fus->id }}">edit</button>
+                    <button class="btn btn-danger" data-toggle="modal"
+                        data-target="#deleteConfirm{{$fus->id}}">Hapus</button>
+                    <div class="modal fade" id="deleteConfirm{{$fus->id}}" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Hapus</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Apakah anda yakin ingin menghapus item ini ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    {!! Form::open([
+                                    'method' => 'DELETE',
+                                    'url' => ['/fuses', $fus->id],
+                                    'style' => 'display:inline'
+                                    ]) !!}
+                                    {!! Form::button('Delete', array(
+                                    'type' => 'submit',
+                                    'class' => 'btn btn-danger btn-sm',
+                                    'title' => 'Confirm Delete'
+                                    )) !!}
+                                    {!! Form::close() !!}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    @if ($fus->is_ajukan == 0)
+                    <button class="btn btn-warning" data-toggle="modal"
+                        data-target="#ajukanConfirm{{$fus->id}}">Ajukan</button>
+                    <div class="modal fade" id="ajukanConfirm{{$fus->id}}" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Ajukan</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Apakah anda yakin ingin mengajukan item ini ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    {!! Form::open([
+                                    'method' => 'PATCH',
+                                    'url' => ['/fus/ajukan', $fus->id],
+                                    'style' => 'display:inline'
+                                    ]) !!}
+                                    {!! Form::button('Ajukan', array(
+                                    'type' => 'submit',
+                                    'class' => 'btn btn-warning btn-sm',
+                                    'title' => 'Confirm Delete'
+                                    )) !!}
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
                 </td>
-              </tr>
+            </tr>
             @endforeach
         </tbody>
     </table>
@@ -84,36 +118,36 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('jadwals.store') }}">
+                <form method="post" action="{{ route('fuses.store') }}">
                     @csrf
                     <div class="form-group">
-                        <input type="text" name="no_polisi" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp" placeholder="No Polisi">
+                        <input type="text" name="no_polisi" class="form-control" aria-describedby="emailHelp"
+                            placeholder="No Polisi">
                     </div>
                     <div class="form-group">
-                        <input type="text" name="model" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp" placeholder="Model">
+                        <input type="text" name="model" class="form-control" aria-describedby="emailHelp"
+                            placeholder="Model">
                     </div>
                     <div class="form-group">
-                        <input type="text" name="no_chassis" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp" placeholder="No Chassis">
+                        <input type="text" name="no_chassis" class="form-control" aria-describedby="emailHelp"
+                            placeholder="No Chassis">
                     </div>
                     <div class="form-group">
-                        <input type="text" name="nama_customer" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp" placeholder="Nama Customer">
+                        <input type="text" name="nama_customer" class="form-control" aria-describedby="emailHelp"
+                            placeholder="Nama Customer">
                     </div>
                     <div class="form-group">
-                        <input type="text" name="no_telp" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp" placeholder="Nomor telp">
+                        <input type="text" name="no_telp" class="form-control" aria-describedby="emailHelp"
+                            placeholder="Nomor telp">
                     </div>
                     <div class="form-group">
-                        <textarea type="text" name="alamat" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp" placeholder="Alamat"></textarea>
+                        <textarea type="text" name="alamat" class="form-control" aria-describedby="emailHelp"
+                            placeholder="Alamat"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Jadwal FUS</label>
-                        <input type="date" name="jadwal_fus" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp">
+                        <label for="exampleInputEmail1">Catatan</label>
+                        <textarea type="text" name="catatan" class="form-control"
+                            aria-describedby="emailHelp"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -165,8 +199,8 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jadwal FUS</label>
-                        <input type="date" name="jadwal_fus" class="form-control" id="edit_jadwal_fus"
-                            aria-describedby="emailHelp">
+                        <textarea type="text" name="catatan" class="form-control" id="edit_catatan"
+                            aria-describedby="emailHelp"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -207,7 +241,7 @@
     var nama_customer = row.children(".nama_customer").text();       
     var no_telp = row.children(".no_telp").text();       
     var alamat = row.children(".alamat").text();       
-    var jadwal_fus = row.children(".jadwal_fus").text();       
+    var catatan = row.children(".catatan").text();       
 
     // fill the data in the input fields
     $("#edit_no_polisi").val(no_polisi);
@@ -216,9 +250,9 @@
     $("#edit_nama_customer").val(nama_customer);
     $("#edit_no_telp").val(no_telp);
     $("#edit_alamat").val(alamat);
-    $("#edit_jadwal_fus").val(jadwal_fus);
+    $("#edit_catatan").val(catatan);
 
-    $("#edit_form_action").attr('action', `/jadwals/${id}`);
+    $("#edit_form_action").attr('action', `/fuses/${id}`);
   })
 
   // on modal hide

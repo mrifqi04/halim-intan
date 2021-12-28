@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\JadwalController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FusController;
+use App\Http\Controllers\JadwalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +25,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::resource('jadwals', JadwalController::class);
+Route::resource('fuses', FusController::class);
+Route::patch('fus/ajukan/{id}', [FusController::class, 'ajukan']);
 
 require __DIR__.'/auth.php';
