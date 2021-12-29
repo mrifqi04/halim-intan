@@ -57,6 +57,10 @@
                 <a class="nav-link ml-4" href="{{ route('services.index') }}">
                     <span>Service</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link ml-4" href="{{ route('validasi.index') }}">
+                    <span>Validasi</span></a>
+            </li>
             {{--
             <!-- Nav Item - Charts -->
             <li class="nav-item">

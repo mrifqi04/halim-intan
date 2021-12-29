@@ -17,6 +17,7 @@ class Fus extends Model
         'no_telp',
         'alamat',
         'catatan',
-        'is_ajukan'
+        'is_ajukan',
+        'status_approve'
     ];
 }

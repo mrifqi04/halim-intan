@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fus;
-use Illuminate\Http\Request;
 use Alert;
+use Illuminate\Http\Request;
 
-class FusController extends Controller
+class ValidasiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,11 @@ class FusController extends Controller
      */
     public function index()
     {
-        $fuses = Fus::orderBy('is_ajukan', 'asc')->get();
+        $fuses = Fus::where('is_ajukan', 1)
+        ->orderBy('status_approve', 'asc')
+        ->get();
 
-        return view('fus.index', compact('fuses'));
+        return view('validasi.index', compact('fuses'));
     }
 
     /**
@@ -38,22 +40,7 @@ class FusController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'no_polisi' => 'required',
-            'model' => 'required',
-            'no_chassis' => 'required',
-            'nama_customer' => 'required',
-            'no_telp' => 'required',
-            'alamat' => 'required',          
-        ]);
-
-        $requestData = $request->all();
-
-        Fus::create($requestData);
-
-        Alert::success('Success', 'FUS berhasil ditambahkan');
-
-        return redirect('fuses');
+        //
     }
 
     /**
@@ -87,37 +74,33 @@ class FusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'no_polisi' => 'required',
-            'model' => 'required',
-            'no_chassis' => 'required',
-            'nama_customer' => 'required',
-            'no_telp' => 'required',
-            'alamat' => 'required',          
-        ]);
-
-        $requestData = $request->all();
-
-        $fus = Fus::find($id);        
-
-        $fus->update($requestData);        
-
-        Alert::success('Success', 'FUS berhasil diupdate');
-
-        return redirect('fuses');
+        //
     }
 
-    public function ajukan($id) {
+    public function approve($id) {
         
         $fus = Fus::find($id);       
         
         $fus->update([
-            'is_ajukan' => 1
+            'status_approve' => 'Approved'
         ]); 
         
-        Alert::success('Success', 'FUS berhasil diajukan');
+        Alert::success('Success', 'FUS berhasil Diapprove');
 
-        return redirect('fuses');
+        return redirect('validasi');
+    }
+
+    public function reject($id) {
+        
+        $fus = Fus::find($id);       
+        
+        $fus->update([
+            'status_approve' => 'Rejected'
+        ]); 
+        
+        Alert::success('Success', 'FUS berhasil Direject');
+
+        return redirect('validasi');
     }
 
     /**
@@ -128,10 +111,6 @@ class FusController extends Controller
      */
     public function destroy($id)
     {
-        Fus::destroy($id);
-
-        Alert::success('Success', 'Jadwal berhasil dihapus');
-
-        return redirect('fuses'); 
+        //
     }
 }

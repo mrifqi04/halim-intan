@@ -5,6 +5,7 @@ use App\Http\Controllers\FusController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ValidasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +29,15 @@ Route::get('/dashboard', function () {
 
 Route::resource('jadwals', JadwalController::class);
 Route::resource('fuses', FusController::class);
+
 Route::patch('fus/ajukan/{id}', [FusController::class, 'ajukan']);
+
 Route::resource('services', ServiceController::class);
 Route::resource('profile', ProfileController::class);
+Route::resource('validasi', ValidasiController::class);
+
+Route::patch('fus/approve/{id}', [ValidasiController::class, 'approve']);
+Route::patch('fus/reject/{id}', [ValidasiController::class, 'reject']);
 
 Route::get('ubah-password', [ProfileController::class, 'ubahPassword']);
 Route::post('ubah-password', [ProfileController::class, 'storePassword']);
