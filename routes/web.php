@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FusController;
 use App\Http\Controllers\JadwalController;
@@ -23,9 +24,8 @@ Route::get('/', function () {
 });
 
 
-Route::get('/dashboard', function () {
-    return view('profile.index');
-})->middleware(['auth'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth'])->name('dashboard');
+Route::get('summary', [DashboardController::class, 'summary']);
 
 Route::resource('jadwals', JadwalController::class);
 Route::resource('fuses', FusController::class);
@@ -41,5 +41,7 @@ Route::patch('fus/reject/{id}', [ValidasiController::class, 'reject']);
 
 Route::get('ubah-password', [ProfileController::class, 'ubahPassword']);
 Route::post('ubah-password', [ProfileController::class, 'storePassword']);
+
+Route::get('data-summary', [DashboardController::class, 'dataSummary']);
 
 require __DIR__.'/auth.php';

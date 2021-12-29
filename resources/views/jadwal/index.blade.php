@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="d-sm-flex align-items-center mb-5">
-    <h1 class="h3 mb-0 text-gray-800">Data jadwal</h1>
+    <h1 class="h3 mb-0 text-gray-800">Data Jadwal</h1>
 </div>
 
 <div class="container-fluid mt-5">
