@@ -2,9 +2,15 @@
 
 @section('content')
 <div class="d-sm-flex align-items-center mb-5">
+    @if (Route::is('dashboard'))
     <h1 class="h3 mb-0 text-gray-800">Halaman Utama</h1>
+    @else
+    <h1 class="h3 mb-0 text-gray-800">Profile</h1>
+    @endif
 </div>
-<div class="mt-5">
+
+@if (Route::is('dashboard'))
+<div class="container mt-5">
     <table class="table">
         <tr class="mb-3">
             <td>Nama</td>
@@ -33,4 +39,10 @@
         </tr>
     </table>
 </div>
+@else
+<div class="container bg-light">
+    @include('profile.edit')
+</div>
+@endif
+
 @endsection
