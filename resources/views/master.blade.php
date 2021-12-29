@@ -52,13 +52,9 @@
             <li class="nav-item">
                 <a class="nav-link ml-4" href="{{ route('fuses.index') }}">
                     <span>FUS</span></a>
-            </li>
+            </li>            
             <li class="nav-item">
-                <a class="nav-link ml-4" href="index.html">
-                    <span>Profile</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link ml-4" href="index.html">
+                <a class="nav-link ml-4" href="{{ route('services.index') }}">
                     <span>Service</span></a>
             </li>
             {{--

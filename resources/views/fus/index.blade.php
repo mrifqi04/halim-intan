@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="d-sm-flex align-items-center mb-5">
-    <h1 class="h3 mb-0 text-gray-800">Data jadwal</h1>
+    <h1 class="h3 mb-0 text-gray-800">Data FUS</h1>
 </div>
 
 <div class="container-fluid mt-5">
@@ -35,9 +35,9 @@
                 <td class="align-middle word-break alamat">{{ $fus->alamat }}</td>
                 <td class="align-middle word-break catatan">{{ $fus->catatan }}</td>
                 <td class="align-middle">
-                    <button type="button" class="btn btn-primary" id="edit-item"
+                    <button type="button" class="btn btn-primary btn-sm" id="edit-item"
                         data-item-id="{{ $fus->id }}">edit</button>
-                    <button class="btn btn-danger" data-toggle="modal"
+                    <button class="btn btn-danger btn-sm" data-toggle="modal"
                         data-target="#deleteConfirm{{$fus->id}}">Hapus</button>
                     <div class="modal fade" id="deleteConfirm{{$fus->id}}" tabindex="-1" role="dialog"
                         aria-labelledby="myModalLabel" aria-hidden="true">
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     @if ($fus->is_ajukan == 0)
-                    <button class="btn btn-warning" data-toggle="modal"
+                    <button class="btn btn-warning btn-sm" data-toggle="modal"
                         data-target="#ajukanConfirm{{$fus->id}}">Ajukan</button>
                     <div class="modal fade" id="ajukanConfirm{{$fus->id}}" tabindex="-1" role="dialog"
                         aria-labelledby="myModalLabel" aria-hidden="true">
@@ -105,112 +105,9 @@
     </table>
 </div>
 
+@include('fus.form')
 
-
-<div class="modal fade" id="tambah-jadwal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark" id="exampleModalLabel">Tambah Data Jadwal</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{{ route('fuses.store') }}">
-                    @csrf
-                    <div class="form-group">
-                        <input type="text" name="no_polisi" class="form-control" aria-describedby="emailHelp"
-                            placeholder="No Polisi">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="model" class="form-control" aria-describedby="emailHelp"
-                            placeholder="Model">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="no_chassis" class="form-control" aria-describedby="emailHelp"
-                            placeholder="No Chassis">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="nama_customer" class="form-control" aria-describedby="emailHelp"
-                            placeholder="Nama Customer">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="no_telp" class="form-control" aria-describedby="emailHelp"
-                            placeholder="Nomor telp">
-                    </div>
-                    <div class="form-group">
-                        <textarea type="text" name="alamat" class="form-control" aria-describedby="emailHelp"
-                            placeholder="Alamat"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Catatan</label>
-                        <textarea type="text" name="catatan" class="form-control"
-                            aria-describedby="emailHelp"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Tambah</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="edit-jadwal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark" id="exampleModalLabel">Ubah Data Jadwal</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post" id="edit_form_action">
-                    {{ method_field('PATCH') }}
-                    @csrf
-                    <div class="form-group">
-                        <input type="text" name="no_polisi" class="form-control" id="edit_no_polisi"
-                            aria-describedby="emailHelp" placeholder="No Polisi">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="model" class="form-control" id="edit_model"
-                            aria-describedby="emailHelp" placeholder="Model">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="no_chassis" class="form-control" id="edit_no_chassis"
-                            aria-describedby="emailHelp" placeholder="No Chassis">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="nama_customer" class="form-control" id="edit_nama_customer"
-                            aria-describedby="emailHelp" placeholder="Nama Customer">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="no_telp" class="form-control" id="edit_no_telp"
-                            aria-describedby="emailHelp" placeholder="Nomor telp">
-                    </div>
-                    <div class="form-group">
-                        <textarea type="text" name="alamat" class="form-control" id="edit_alamat"
-                            aria-describedby="emailHelp" placeholder="Alamat"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Jadwal FUS</label>
-                        <textarea type="text" name="catatan" class="form-control" id="edit_catatan"
-                            aria-describedby="emailHelp"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+@include('fus.edit')
 
 @endsection
 

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="d-sm-flex align-items-center mb-5">
-    <h1 class="h3 mb-0 text-gray-800">Data jadwal</h1>
+    <h1 class="h3 mb-0 text-gray-800">Data Service</h1>
 </div>
 
 <div class="container-fluid mt-5">
@@ -16,7 +16,7 @@
                 <th scope="col">Nama Customer</th>    
                 <th scope="col">No Telp</th>
                 <th scope="col">Alamat</th>
-                <th scope="col">Jadwal FUS</th>                
+                <th scope="col">Pekerjaan</th>                                              
                 <th scope="col">
                     <button class="btn btn-success rounded" data-toggle="modal"
                         data-target="#tambah-jadwal">Tambah</button>
@@ -24,20 +24,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($jadwals as $key => $jadwal)           
+            @foreach ($services as $key => $service)           
             <tr class="data-row text-dark" style="background-color: {{ ($key + 1) % 2 == 0 ?  '#b4f2cd' : ''}}">                
                 <td class="align-middle">{{ $key + 1 }}</td>
-                <td class="align-middle no_polisi">{{ $jadwal->no_polisi }}</td>
-                <td class="align-middle model">{{ $jadwal->model }}</td>
-                <td class="align-middle word-break no_chassis">{{ $jadwal->no_chassis }}</td>
-                <td class="align-middle word-break nama_customer">{{ $jadwal->nama_customer }}</td>
-                <td class="align-middle word-break no_telp">{{ $jadwal->no_telp }}</td>
-                <td class="align-middle word-break alamat">{{ $jadwal->alamat }}</td>
-                <td class="align-middle word-break jadwal_fus">{{ $jadwal->jadwal_fus }}</td>
+                <td class="align-middle no_polisi">{{ $service->no_polisi }}</td>
+                <td class="align-middle model">{{ $service->model }}</td>
+                <td class="align-middle word-break no_chassis">{{ $service->no_chassis }}</td>
+                <td class="align-middle word-break nama_customer">{{ $service->nama_customer }}</td>
+                <td class="align-middle word-break no_telp">{{ $service->no_telp }}</td>
+                <td class="align-middle word-break alamat">{{ $service->alamat }}</td>
+                <td class="align-middle word-break pekerjaan">{{ $service->pekerjaan }}</td>
                 <td class="align-middle">
-                  <button type="button" class="btn btn-primary btn-sm" id="edit-item" data-item-id="{{ $jadwal->id }}">edit</button>
-                  <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteConfirm{{$jadwal->id}}">Hapus</button>
-                  <div class="modal fade" id="deleteConfirm{{$jadwal->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <button type="button" class="btn btn-primary btn-sm" id="edit-item" data-item-id="{{ $service->id }}">edit</button>
+                  <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteConfirm{{$service->id}}">Hapus</button>
+                  <div class="modal fade" id="deleteConfirm{{$service->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -51,7 +51,7 @@
                                     data-dismiss="modal">Close</button>
                                 {!! Form::open([
                                 'method' => 'DELETE',
-                                'url' => ['/jadwals', $jadwal->id],
+                                'url' => ['/services', $service->id],
                                 'style' => 'display:inline'
                                 ]) !!}
                                 {!! Form::button('Delete', array(
@@ -71,9 +71,9 @@
     </table>
 </div>
 
-@include('jadwal.form')
+@include('service.form')
 
-@include('jadwal.edit')
+@include('service.edit')
 
 @endsection
 
@@ -104,7 +104,7 @@
     var nama_customer = row.children(".nama_customer").text();       
     var no_telp = row.children(".no_telp").text();       
     var alamat = row.children(".alamat").text();       
-    var jadwal_fus = row.children(".jadwal_fus").text();       
+    var pekerjaan = row.children(".pekerjaan").text();       
 
     // fill the data in the input fields
     $("#edit_no_polisi").val(no_polisi);
@@ -113,9 +113,9 @@
     $("#edit_nama_customer").val(nama_customer);
     $("#edit_no_telp").val(no_telp);
     $("#edit_alamat").val(alamat);
-    $("#edit_jadwal_fus").val(jadwal_fus);
+    $("#edit_pekerjaan").val(pekerjaan);
 
-    $("#edit_form_action").attr('action', `/jadwals/${id}`);
+    $("#edit_form_action").attr('action', `/services/${id}`);
   })
 
   // on modal hide
