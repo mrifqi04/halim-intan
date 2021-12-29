@@ -40,8 +40,7 @@
         get_chart()      
     })
 
-    function get_chart(date_summary) {
-        console.log(date_summary)
+    function get_chart(date_summary) {        
         $.ajax({
             url: '/data-summary',
             data:  {
@@ -50,9 +49,7 @@
             dataType: 'json',                                     
             cache: false,
             success: function(res) {
-
-                console.log(res)
-
+                
                 let customer = []
                 let total = []
                 let max = 0

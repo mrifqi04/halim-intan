@@ -13,10 +13,22 @@ class JadwalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $jadwals = Jadwal::all();
+    public function index(Request $request)
+    {   
+        $date_jadwal = $request->date_jadwal;
+        $time = strtotime($date_jadwal);
+        $final = date("Y-m-d", strtotime("+1 month", $time));   
 
+        if ($date_jadwal) {
+            $jadwals = Jadwal::where('created_at', '>=' ,$date_jadwal)
+            ->where('created_at', '<=' , $final)
+            ->get();            
+            return response()->json(['jadwal' => view('jadwal.table')->with('jadwals', $jadwals)->render()]);
+
+        } else {
+            $jadwals = Jadwal::all();
+        }
+        
         return view('jadwal.index', compact('jadwals'));
     }
 
