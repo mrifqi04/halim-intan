@@ -1,4 +1,4 @@
-<table class="table p-0" id="table_jadwals">
+<table class="table p-0" id="table_validasi">
     <thead>
         <tr>
             <th scope="col">No</th>
@@ -27,42 +27,49 @@
             <td class="align-middle word-break catatan">{{ $fus->catatan }}</td>
             <td class="align-middle">
                 @if ($fus->status_approve == null)
-                <button class="btn btn-primary btn-sm" data-toggle="modal"
-                    data-target="#approveConfirm{{$fus->id}}">Approve</button>
+                <button class="btn btn-primary btn-sm" id="onDelete">Approve{{$fus->id}}</button>
+                {{-- <button class="btn btn-primary btn-sm" data-toggle="modal"
+                    data-target="#approveConfirm{{$fus->id}}">Approve{{$fus->id}}</button> --}}
+
+                <script>
+                    $("#onDelete").on('click', function() {
+                        id = '{{ $fus->id }}'                        
+                        swal.fire({
+                            title: "Are you sure?",
+                            text: "If you delete this post all associated comments also deleted permanently.",
+                            type: "warning",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Yes, delete it!",
+                        })
+                        .then(function(isConfirm) {
+                                if (isConfirm) {                                    
+                                        $.ajax({
+                                            url: `/fus/approve/${id}`,              
+                                            method: 'post',                                                 
+                                            dataType: 'json',
+                                            cache: false,                                                                      
+                                        }).then(
+                                            location.reload()
+                                        )                                    
+                                }
+                            })
+                        })
+                </script>
+
                 <button class="btn btn-danger btn-sm" data-toggle="modal"
                     data-target="#rejectConfirm{{$fus->id}}">Reject</button>
-                    @else
-                    <span class="badge badge-{{ $fus->status_approve == 'Approved' ? 'success' : 'danger'}}">{{ $fus->status_approve }}</span>
+                @else
+                <span class="badge badge-{{ $fus->status_approve == 'Approved' ? 'success' : 'danger'}}">{{
+                    $fus->status_approve }}</span>
             </td>
             @endif
         </tr>
 
-        <div class="modal fade" id="approveConfirm{{$fus->id}}" tabindex="-1" role="dialog"
-            aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">Approve</h4>
-                    </div>
-                    <div class="modal-body">
-                        Approve item ini ?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        {!! Form::open([
-                        'method' => 'PATCH',
-                        'url' => ['/fus/approve', $fus->id],
-                        'style' => 'display:inline'
-                        ]) !!}
-                        {!! Form::button('Approve', array(
-                        'type' => 'submit',
-                        'class' => 'btn btn-primary btn-sm',
-                        'title' => 'Confirm Delete'
-                        )) !!}
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            </div>
+        <div id="approve">
+            @include('validasi.approve')
         </div>
 
         <div class="modal fade" id="rejectConfirm{{$fus->id}}" tabindex="-1" role="dialog"
@@ -95,3 +102,10 @@
         @endforeach
     </tbody>
 </table>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<script>
+    $(document).on('click', "#edit-item", function() {
+        $('#table_validasi').DataTable();
+    })
+</script>

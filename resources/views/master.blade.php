@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>SB Admin 2 - Dashboard</title>
 
@@ -52,7 +53,7 @@
             <li class="nav-item">
                 <a class="nav-link ml-4" href="{{ route('fuses.index') }}">
                     <span>FUS</span></a>
-            </li>            
+            </li>
             <li class="nav-item">
                 <a class="nav-link ml-4" href="{{ route('services.index') }}">
                     <span>Service</span></a>
@@ -202,7 +203,7 @@
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>                                
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
                             </div>
@@ -591,10 +592,10 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     {!! Form::open([
-                        'url' => '/logout'
+                    'url' => '/logout'
                     ]) !!}
                     <button class="btn btn-primary" href="login.html">Logout</butt>
-                    {!! Form::close() !!}
+                        {!! Form::close() !!}
                 </div>
             </div>
         </div>
@@ -618,6 +619,14 @@
     <script src="{{ URL::asset('admin/js/demo/chart-pie-demo.js') }}"></script>
 
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js">
+    </script>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     </script>
 
     @yield('script')

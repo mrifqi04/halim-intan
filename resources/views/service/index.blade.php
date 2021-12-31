@@ -107,8 +107,7 @@ function service_filter()
             dataType: 'json',
             cache: false,
             success: function(res) {
-                $('#service_table').html(res.service)
-                console.log(res.service)
+                $('#service_table').html(res.service)                
             },
             beforeSend: function(res){
 			$('#service_table').html('<p align="center">Loading...</p>');

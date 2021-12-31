@@ -5,8 +5,17 @@
     <h1 class="h3 mb-0 text-gray-800">Data Validasi</h1>
 </div>
 
-<div class="container-fluid mt-5">
-    <table class="table p-0" id="table_jadwals">
+<div class="container-fluid w-25 float-left mb-5">
+    <?php
+        $date_to = date('Y-m-d');
+        $date_from = date('Y-m-d', strtotime("-2 weeks", strtotime($date_to)));        
+    ?>
+    <input type="date" class="form-control" name="start" id="date_validasi" value="{{ $date_from }}"
+        data-date-format="dd-mm-yyyy" onchange="validasi_filter()">
+</div>
+
+<div class="container-fluid mt-5" id="validasi_table">
+    <table class="table p-0" id="table_validasi">
         <thead>
             <tr>
                 <th scope="col">No</th>
@@ -22,85 +31,10 @@
                 </th>
             </tr>
         </thead>
-        <tbody>
-            @foreach ($fuses as $key => $fus)
-            <tr class="data-row text-dark" style="background-color: {{ ($key + 1) % 2 == 0 ?  '#b4f2cd' : ''}}">
-                <td class="align-middle">{{ $key + 1 }}</td>
-                <td class="align-middle no_polisi">{{ $fus->no_polisi }}</td>
-                <td class="align-middle model">{{ $fus->model }}</td>
-                <td class="align-middle word-break no_chassis">{{ $fus->no_chassis }}</td>
-                <td class="align-middle word-break nama_customer">{{ $fus->nama_customer }}</td>
-                <td class="align-middle word-break no_telp">{{ $fus->no_telp }}</td>
-                <td class="align-middle word-break alamat">{{ $fus->alamat }}</td>
-                <td class="align-middle word-break catatan">{{ $fus->catatan }}</td>
-                <td class="align-middle">
-                    @if ($fus->status_approve == null)
-                    <button class="btn btn-primary btn-sm" data-toggle="modal"
-                        data-target="#approveConfirm{{$fus->id}}">Approve</button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal"
-                        data-target="#rejectConfirm{{$fus->id}}">Reject</button>
-                        @else
-                        <span class="badge badge-{{ $fus->status_approve == 'Approved' ? 'success' : 'danger'}}">{{ $fus->status_approve }}</span>
-                </td>
-                @endif
-            </tr>
-
-            <div class="modal fade" id="approveConfirm{{$fus->id}}" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel">Approve</h4>
-                        </div>
-                        <div class="modal-body">
-                            Approve item ini ?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            {!! Form::open([
-                            'method' => 'PATCH',
-                            'url' => ['/fus/approve', $fus->id],
-                            'style' => 'display:inline'
-                            ]) !!}
-                            {!! Form::button('Approve', array(
-                            'type' => 'submit',
-                            'class' => 'btn btn-primary btn-sm',
-                            'title' => 'Confirm Delete'
-                            )) !!}
-                            {!! Form::close() !!}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="rejectConfirm{{$fus->id}}" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel">Approve</h4>
-                        </div>
-                        <div class="modal-body">
-                            Reject item ini ?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            {!! Form::open([
-                            'method' => 'PATCH',
-                            'url' => ['/fus/reject', $fus->id],
-                            'style' => 'display:inline'
-                            ]) !!}
-                            {!! Form::button('Reject', array(
-                            'type' => 'submit',
-                            'class' => 'btn btn-danger btn-sm',
-                            'title' => 'Confirm Delete'
-                            )) !!}
-                            {!! Form::close() !!}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
+        <tbody>            
+            <tr class="data-row text-dark">
+                <td class="align-middle">asd</td>                               
+            </tr>            
         </tbody>
     </table>
 </div>
@@ -110,50 +44,30 @@
 @section('script')
 <script>
     $(document).ready( function () {
-    $('#table_jadwals').DataTable();
+    // $('#table_validasi').DataTable();
 
-    $(document).on('click', "#edit-item", function() {
-    $(this).addClass('edit-item-trigger-clicked'); //useful for identifying which trigger was clicked and consequently grab data from the correct row and not the wrong one.
+    validasi_filter()
+});
 
-    var options = {
-      'backdrop': 'static'
-    };
-    $('#edit-jadwal').modal(options)
-  })
-
-  // on modal show
-  $('#edit-jadwal').on('show.bs.modal', function() {
-    var el = $(".edit-item-trigger-clicked"); // See how its usefull right here? 
-    var row = el.closest(".data-row");
-
-    // get the data
-    var id = el.data('item-id');
-    var no_polisi = row.children(".no_polisi").text();
-    var model = row.children(".model").text();   
-    var no_chassis = row.children(".no_chassis").text();       
-    var nama_customer = row.children(".nama_customer").text();       
-    var no_telp = row.children(".no_telp").text();       
-    var alamat = row.children(".alamat").text();       
-    var catatan = row.children(".catatan").text();       
-
-    // fill the data in the input fields
-    $("#edit_no_polisi").val(no_polisi);
-    $("#edit_model").val(model);
-    $("#edit_no_chassis").val(no_chassis);
-    $("#edit_nama_customer").val(nama_customer);
-    $("#edit_no_telp").val(no_telp);
-    $("#edit_alamat").val(alamat);
-    $("#edit_catatan").val(catatan);
-
-    $("#edit_form_action").attr('action', `/fuses/${id}`);
-  })
-
-  // on modal hide
-  $('#edit-jadwal').on('hide.bs.modal', function() {
-    $('.edit-item-trigger-clicked').removeClass('edit-item-trigger-clicked')
-    $("#edit-form").trigger("reset");
-  })
-} );
+function validasi_filter()
+    {
+        const date_validasi = $('#date_validasi').val()                
+        
+        $.ajax({
+            url: '/validasi',            
+            data: {
+                date_validasi
+            },
+            dataType: 'json',
+            cache: false,
+            success: function(res) {
+                $('#validasi_table').html(res.validasi)                               
+            },
+            beforeSend: function(res){
+			$('#validasi_table').html('<p align="center">Loading...</p>');
+		}
+        })
+    }
 
 
 </script>
