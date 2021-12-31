@@ -13,33 +13,22 @@ class JadwalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {   
-        $date_jadwal = $request->date_jadwal;
-        $time = strtotime($date_jadwal);
-        $final = date("Y-m-d", strtotime("+1 month", $time));   
-
-        if ($date_jadwal) {
-            $jadwals = Jadwal::where('created_at', '>=' ,$date_jadwal)
-            ->where('created_at', '<=' , $final)
-            ->get();            
-            return response()->json(['jadwal' => view('jadwal.table')->with('jadwals', $jadwals)->render()]);
-
-        } else {
-            $jadwals = Jadwal::all();
-        }
-        
-        return view('jadwal.index', compact('jadwals'));
+    public function index()
+    {
+        return view('jadwal.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function table(Request $request)
     {
-        //
+        $date_jadwal = $request->date_jadwal;
+        $time = strtotime($date_jadwal);
+        $final = date("Y-m-d", strtotime("+1 month", $time));
+
+        $jadwals = Jadwal::where('created_at', '>=', $date_jadwal)
+            ->where('created_at', '<=', $final)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json(['jadwal' => view('jadwal.table')->with('jadwals', $jadwals)->render()]);
     }
 
     /**
@@ -112,13 +101,13 @@ class JadwalController extends Controller
 
         $requestData = $request->all();
 
-        $jadwal = Jadwal::find($id);        
+        $jadwal = Jadwal::find($id);
 
         $jadwal->update($requestData);
 
         Alert::success('Success', 'Jadwal berhasil diupdate');
 
-        return redirect('jadwals');        
+        return redirect('jadwals');
     }
 
     /**
@@ -133,6 +122,6 @@ class JadwalController extends Controller
 
         Alert::success('Success', 'Jadwal berhasil dihapus');
 
-        return redirect('jadwals');        
+        return redirect('jadwals');
     }
 }

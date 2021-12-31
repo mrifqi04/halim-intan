@@ -15,7 +15,29 @@
 </div>
 
 <div class="container-fluid mt-5" id="jadwal_table">
-    
+    <table class="table p-0" id="table_jadwals">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">No Polisi</th>
+                <th scope="col">Model</th>
+                <th scope="col">No Chassis</th>
+                <th scope="col">Nama Customer</th>
+                <th scope="col">No Telp</th>
+                <th scope="col">Alamat</th>
+                <th scope="col">Jadwal FUS</th>
+                <th scope="col">
+                    <button class="btn btn-success rounded" data-toggle="modal"
+                        data-target="#tambah-jadwal">Tambah</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>            
+            <tr class="data-row text-dark">
+                <td class="align-middle text-center" colspan="9">No Data</td>                
+            </tr>            
+        </tbody>
+    </table>
 </div>
 
 @include('jadwal.form')
@@ -27,7 +49,6 @@
 @section('script')
 <script>
     $(document).ready( function () {
-    $('#table_jadwals').DataTable();
     jadwal_filter()
 
     $(document).on('click', "#edit-item", function() {
@@ -79,7 +100,7 @@ function jadwal_filter()
         const date_jadwal = $('#date_jadwal').val()                
         
         $.ajax({
-            url: '/jadwals',            
+            url: '/table-jadwals',            
             data: {
                 date_jadwal
             },

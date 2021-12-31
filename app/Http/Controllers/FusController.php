@@ -15,9 +15,7 @@ class FusController extends Controller
      */
     public function index()
     {
-        $fuses = Fus::orderBy('is_ajukan', 'asc')->get();
-
-        return view('fus.index', compact('fuses'));
+        return view('fus.index');
     }
 
     /**
@@ -25,9 +23,21 @@ class FusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function table(Request $request)
     {
-        //
+
+        $date_fus = $request->date_fus;
+        $time = strtotime($date_fus);
+        $final = date("Y-m-d", strtotime("+1 month", $time));
+
+        $fuses = Fus::where('created_at', '>=', $date_fus)
+        ->where('created_at', '<=', $final)
+        ->orderBy('created_at', 'desc')
+        ->orderBy('is_ajukan', 'asc')
+        ->get();
+
+
+        return response()->json(['fus' => view('jadwal.table')->with('jadwals', $fuses)->render()]);
     }
 
     /**
@@ -44,7 +54,7 @@ class FusController extends Controller
             'no_chassis' => 'required',
             'nama_customer' => 'required',
             'no_telp' => 'required',
-            'alamat' => 'required',          
+            'alamat' => 'required',
         ]);
 
         $requestData = $request->all();
@@ -93,28 +103,29 @@ class FusController extends Controller
             'no_chassis' => 'required',
             'nama_customer' => 'required',
             'no_telp' => 'required',
-            'alamat' => 'required',          
+            'alamat' => 'required',
         ]);
 
         $requestData = $request->all();
 
-        $fus = Fus::find($id);        
+        $fus = Fus::find($id);
 
-        $fus->update($requestData);        
+        $fus->update($requestData);
 
         Alert::success('Success', 'FUS berhasil diupdate');
 
         return redirect('fuses');
     }
 
-    public function ajukan($id) {
-        
-        $fus = Fus::find($id);       
-        
+    public function ajukan($id)
+    {
+
+        $fus = Fus::find($id);
+
         $fus->update([
             'is_ajukan' => 1
-        ]); 
-        
+        ]);
+
         Alert::success('Success', 'FUS berhasil diajukan');
 
         return redirect('fuses');
@@ -132,6 +143,6 @@ class FusController extends Controller
 
         Alert::success('Success', 'Jadwal berhasil dihapus');
 
-        return redirect('fuses'); 
+        return redirect('fuses');
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ValidasiController;
+use App\Models\Jadwal;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,10 @@ Route::get('dashboard', [DashboardController::class, 'dashboard'])->middleware([
 Route::get('summary', [DashboardController::class, 'summary']);
 
 Route::resource('jadwals', JadwalController::class);
+Route::get('table-jadwals', [JadwalController::class, 'table']);
 Route::resource('fuses', FusController::class);
+Route::get('table-fus', [FusController::class, 'table']);
+
 
 Route::patch('fus/ajukan/{id}', [FusController::class, 'ajukan']);
 

@@ -63,3 +63,7 @@
         @endforeach
     </tbody>
 </table>
+
+<script>
+    $('#table_jadwals').DataTable();
+</script>
