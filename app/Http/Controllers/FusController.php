@@ -18,11 +18,6 @@ class FusController extends Controller
         return view('fus.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function table(Request $request)
     {
 
@@ -37,7 +32,7 @@ class FusController extends Controller
         ->get();
 
 
-        return response()->json(['fus' => view('jadwal.table')->with('jadwals', $fuses)->render()]);
+        return response()->json(['fus' => view('fus.table')->with('fuses', $fuses)->render()]);
     }
 
     /**

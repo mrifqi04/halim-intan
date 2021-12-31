@@ -1,4 +1,4 @@
-<table class="table p-0" id="table_jadwals">
+<table class="table p-0" id="table_service">
     <thead>
         <tr>
             <th scope="col">No</th>
@@ -61,3 +61,7 @@
         @endforeach
     </tbody>
 </table>
+
+<script>
+    $('#table_service').DataTable();
+</script>

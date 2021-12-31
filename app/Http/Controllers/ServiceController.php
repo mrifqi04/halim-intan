@@ -14,20 +14,24 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $services = Service::all();
-        
-        return view('service.index', compact('services'));
+    {                
+        return view('service.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function table(Request $request)
     {
-        //
+
+        $date_service = $request->date_service;
+        $time = strtotime($date_service);
+        $final = date("Y-m-d", strtotime("+1 month", $time));
+
+        $services = Service::where('created_at', '>=', $date_service)
+        ->where('created_at', '<=', $final)
+        ->orderBy('created_at', 'desc')        
+        ->get();
+
+
+        return response()->json(['service' => view('service.table')->with('services', $services)->render()]);
     }
 
     /**
