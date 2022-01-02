@@ -28,7 +28,7 @@ $role = Auth::user()->role_id;
     <tbody>
         @foreach ($fuses as $key => $fus)
         <tr class="data-row text-dark" style="background-color: {{ ($key + 1) % 2 == 0 ?  '#b4f2cd' : ''}}">
-            <td class="align-middle">{{ $key + 1 }} | {{ $fus->id }}</td>
+            <td class="align-middle">{{ $key + 1 }}</td>
             <td class="align-middle no_polisi">{{ $fus->no_polisi }}</td>
             <td class="align-middle model">{{ $fus->model }}</td>
             <td class="align-middle word-break no_chassis">{{ $fus->no_chassis }}</td>
@@ -47,7 +47,6 @@ $role = Auth::user()->role_id;
                     $fus->status_approve }}</span>
                 @endif
             </td>
-
             <div id="approve">
                 @include('validasi.approve')
             </div>

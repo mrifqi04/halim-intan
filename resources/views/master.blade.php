@@ -76,7 +76,7 @@
             </li>
             @endif
 
-            @if ($role == 4)
+            @if ($role == 4 || $role == 5)
             <li class="nav-item">
                 <a class="nav-link ml-4" href="{{ route('validasi.index') }}">
                     <span>Validasi</span></a>
