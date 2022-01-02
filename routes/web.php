@@ -41,9 +41,10 @@ Route::get('table-services', [ServiceController::class, 'table']);
 
 Route::resource('profile', ProfileController::class);
 Route::resource('validasi', ValidasiController::class);
+Route::post('export-validasi', [ValidasiController::class, 'export']);
 
 Route::post('fus/approve/{id}', [ValidasiController::class, 'approve']);
-Route::patch('fus/reject/{id}', [ValidasiController::class, 'reject']);
+Route::post('fus/reject/{id}', [ValidasiController::class, 'reject']);
 
 Route::get('ubah-password', [ProfileController::class, 'ubahPassword']);
 Route::post('ubah-password', [ProfileController::class, 'storePassword']);

@@ -15,39 +15,17 @@
 </div>
 
 <div class="container-fluid mt-5" id="validasi_table">
-    <table class="table p-0" id="table_validasi">
-        <thead>
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">No Polisi</th>
-                <th scope="col">Model</th>
-                <th scope="col">No Chassis</th>
-                <th scope="col">Nama Customer</th>
-                <th scope="col">No Telp</th>
-                <th scope="col">Alamat</th>
-                <th scope="col">Catatan</th>
-                <th scope="col">
-                    <button class="btn btn-success rounded">Download</button>
-                </th>
-            </tr>
-        </thead>
-        <tbody>            
-            <tr class="data-row text-dark">
-                <td class="align-middle">asd</td>                               
-            </tr>            
-        </tbody>
-    </table>
+    
 </div>
 
 @endsection
 
 @section('script')
 <script>
-    $(document).ready( function () {
-    // $('#table_validasi').DataTable();
+    $(document).ready( function () {    
 
-    validasi_filter()
-});
+        validasi_filter()
+    });
 
 function validasi_filter()
     {

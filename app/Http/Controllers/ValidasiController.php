@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fus;
 use Alert;
+use App\Models\Fus;
+use App\Exports\MunirExport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidasiController extends Controller
@@ -27,17 +29,18 @@ class ValidasiController extends Controller
                 ->orderBy('status_approve', 'asc')
                 ->get();
 
-            return response()->json(['validasi' => view('validasi.table')->with('fuses', $fuses)->render()]);
+            return response()->json(['validasi' => view('validasi.table')->with([
+                'fuses' => $fuses,
+                'date_validasi' => $date_validasi,
+                'final' => $final
+            ])->render()]);
         } else {
             $fuses = Fus::where('is_ajukan', 1)
                 ->orderBy('status_approve', 'asc')
                 ->get();
         }
-        // $fuses = Fus::where('is_ajukan', 1)
-        // ->orderBy('status_approve', 'asc')
-        // ->get();
 
-        return view('validasi.index', compact('fuses'));
+        return view('validasi.index', compact('fuses', 'date_validasi'));
     }
 
 
@@ -53,52 +56,9 @@ class ValidasiController extends Controller
             ->orderBy('status_approve', 'asc')
             ->get();
 
-        return response()->json(['validasi' => view('validasi.table')->with('fuses', $fuses)->render()]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return response()->json(['validasi' => view('validasi.table')->with([
+            'fuses' => $fuses,
+        ])->render()]);
     }
 
     public function approve($id)
@@ -127,6 +87,14 @@ class ValidasiController extends Controller
         Alert::success('Success', 'FUS berhasil Direject');
 
         return redirect('validasi');
+    }
+
+    public function export(Request $request)
+    {
+        $date_validasi = $request->date_validasi;
+        $final = $request->final;
+        
+        return Excel::download(new MunirExport($date_validasi, $final), 'data.xlsx');
     }
 
     /**
