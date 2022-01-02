@@ -28,10 +28,14 @@ class ServiceController extends Controller
         $services = Service::where('created_at', '>=', $date_service)
         ->where('created_at', '<=', $final)
         ->orderBy('created_at', 'desc')        
-        ->get();
+        ->get();        
 
-
-        return response()->json(['service' => view('service.table')->with('services', $services)->render()]);
+        return response()->json(['service' => view('service.table')
+        ->with([
+            'services' => $services,
+            'date_validasi' => $date_service,
+            'final' => $final,
+        ])->render()]);
     }
 
     /**

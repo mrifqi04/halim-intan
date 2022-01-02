@@ -11,13 +11,24 @@ $role = Auth::user()->role_id;
             <th scope="col">Nama Customer</th>
             <th scope="col">No Telp</th>
             <th scope="col">Alamat</th>
-            <th scope="col">Pekerjaan</th>
-
+            <th scope="col">Pekerjaan</th>            
             @if ($role == 5)
             <th scope="col">
                 <button class="btn btn-success rounded" data-toggle="modal" data-target="#tambah-jadwal">Tambah</button>
             </th>
-            @else
+            @elseif ($role == 4)
+            <th scope="col">
+                {!! Form::open([
+                'before' => 'csrf',
+                'url' => 'export-validasi',
+                'method' => 'post'
+                ]) !!}
+                <input type="hidden" name="date_validasi" value="{{ $date_validasi }}">
+                <input type="hidden" name="final" value="{{ $final }}">
+                <button type="submit" class="btn btn-success rounded">Download</button>
+                {!! Form::close() !!}
+            </th>
+            @else            
             <th scope="col">Status</th>
             @endif
         </tr>
@@ -67,6 +78,8 @@ $role = Auth::user()->role_id;
                     </div>
                 </div>
             </td>
+            @elseif ($role == 4)
+            <td class="align-middle word-break"></td>
             @else
             <td>
                 <span class="badge badge-success">Selesai</span>

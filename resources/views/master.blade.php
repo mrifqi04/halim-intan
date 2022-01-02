@@ -43,7 +43,7 @@
             <hr class="sidebar-divider my-0">
 
             @php
-                $role = Auth::user()->role_id;
+            $role = Auth::user()->role_id;
             @endphp
 
             <li class="nav-item">
@@ -51,30 +51,43 @@
                     <span>Home</span></a>
             </li>
             @if ($role == 1 || $role == 2)
-                <li class="nav-item">
-                    <a class="nav-link ml-4" href="{{ route('jadwals.index') }}">
-                        <span>Jadwal</span></a>
-                </li>                
-                <li class="nav-item">
-                    <a class="nav-link ml-4" href="{{ route('fuses.index') }}">
-                        <span>FUS</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ml-4" href="{{ route('services.index') }}">
-                        <span>Service</span></a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link ml-4" href="{{ route('jadwals.index') }}">
+                    <span>Jadwal</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link ml-4" href="{{ route('fuses.index') }}">
+                    <span>FUS</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link ml-4" href="{{ route('services.index') }}">
+                    <span>Service</span></a>
+            </li>
             @endif
 
-
-            {{-- <li class="nav-item">
+            @if ($role == 1 || $role == 3)
+            <li class="nav-item">
                 <a class="nav-link ml-4" href="{{ route('validasi.index') }}">
                     <span>Validasi</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link ml-4" href="/summary">
                     <span>Summary</span></a>
-            </li> --}}
-            
+            </li>
+            @endif
+
+            @if ($role == 4)
+            <li class="nav-item">
+                <a class="nav-link ml-4" href="{{ route('validasi.index') }}">
+                    <span>Validasi</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link ml-4" href="{{ route('services.index') }}">
+                    <span>Service</span></a>
+            </li>            
+            @endif
+
+
         </ul>
         <!-- End of Sidebar -->
 

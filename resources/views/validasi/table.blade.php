@@ -1,3 +1,6 @@
+@php
+$role = Auth::user()->role_id;
+@endphp
 <table class="table p-0" id="table_validasi">
     <thead>
         <tr>
@@ -11,13 +14,13 @@
             <th scope="col">Catatan</th>
             <th scope="col">
                 {!! Form::open([
-                    'before' => 'csrf',
-                    'url' => 'export-validasi',
-                    'method' => 'post'
+                'before' => 'csrf',
+                'url' => 'export-validasi',
+                'method' => 'post'
                 ]) !!}
                 <input type="hidden" name="date_validasi" value="{{ $date_validasi }}">
-                <input type="hidden" name="final" value="{{ $final }}">               
-                <button type="submit" class="btn btn-success rounded">Download</button>        
+                <input type="hidden" name="final" value="{{ $final }}">
+                <button type="submit" class="btn btn-success rounded">Download</button>
                 {!! Form::close() !!}
             </th>
         </tr>
@@ -33,6 +36,7 @@
             <td class="align-middle word-break no_telp">{{ $fus->no_telp }}</td>
             <td class="align-middle word-break alamat">{{ $fus->alamat }}</td>
             <td class="align-middle word-break catatan">{{ $fus->catatan }}</td>
+            @if ($role == 3)
             <td class="align-middle">
                 @if ($fus->status_approve == null)
                 <button class="btn btn-primary btn-sm" onclick="onApprove({{ $fus->id }})">Approve</button>
@@ -41,13 +45,17 @@
                 @else
                 <span class="badge badge-{{ $fus->status_approve == 'Approved' ? 'success' : 'danger'}}">{{
                     $fus->status_approve }}</span>
+                @endif
             </td>
+
+            <div id="approve">
+                @include('validasi.approve')
+            </div>
+            @else
+            <td class="align-middle word-break"></td>
             @endif
         </tr>
-
-        <div id="approve">
-            @include('validasi.approve')
-        </div>
+        
         @endforeach
     </tbody>
 </table>
