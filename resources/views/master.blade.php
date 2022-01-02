@@ -42,52 +42,39 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
+            @php
+                $role = Auth::user()->role_id;
+            @endphp
+
             <li class="nav-item">
                 <a class="nav-link ml-4" href="/dashboard">
                     <span>Home</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link ml-4" href="{{ route('jadwals.index') }}">
-                    <span>Jadwal</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link ml-4" href="{{ route('fuses.index') }}">
-                    <span>FUS</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link ml-4" href="{{ route('services.index') }}">
-                    <span>Service</span></a>
-            </li>
-            <li class="nav-item">
+            @if ($role == 1 || $role == 2)
+                <li class="nav-item">
+                    <a class="nav-link ml-4" href="{{ route('jadwals.index') }}">
+                        <span>Jadwal</span></a>
+                </li>                
+                <li class="nav-item">
+                    <a class="nav-link ml-4" href="{{ route('fuses.index') }}">
+                        <span>FUS</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ml-4" href="{{ route('services.index') }}">
+                        <span>Service</span></a>
+                </li>
+            @endif
+
+
+            {{-- <li class="nav-item">
                 <a class="nav-link ml-4" href="{{ route('validasi.index') }}">
                     <span>Validasi</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link ml-4" href="/summary">
                     <span>Summary</span></a>
-            </li>
-            {{--
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div> --}}
+            </li> --}}
+            
         </ul>
         <!-- End of Sidebar -->
 
