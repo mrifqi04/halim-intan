@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
+use App\Models\Jadwal;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FusController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ValidasiController;
-use App\Models\Jadwal;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,5 +51,7 @@ Route::get('ubah-password', [ProfileController::class, 'ubahPassword']);
 Route::post('ubah-password', [ProfileController::class, 'storePassword']);
 
 Route::get('data-summary', [DashboardController::class, 'dataSummary']);
+
+Route::resource('users', UserController::class);
 
 require __DIR__.'/auth.php';
