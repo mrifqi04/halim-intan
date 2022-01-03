@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fus;
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -45,5 +46,25 @@ class DashboardController extends Controller
         }
 
         return response()->json($fus);
+    }
+
+    public function notifikasi()
+    {
+        // $jadwals = Jadwal::all();        
+        $jadwals = Jadwal::where('notifikasi', 1)        
+        ->get();        
+
+        return response()->json($jadwals);
+    }
+
+    public function readNotifikasi() {
+        
+        $jadwals = Jadwal::where('notifikasi', 1)        
+        ->get();   
+
+        foreach ($jadwals as $jadwal) {
+            $jadwal->notifikasi = 2;
+            $jadwal->save();
+        }
     }
 }

@@ -54,4 +54,7 @@ Route::get('data-summary', [DashboardController::class, 'dataSummary']);
 
 Route::resource('users', UserController::class);
 
+Route::get('get-notifikasi', [DashboardController::class, 'notifikasi']);
+Route::post('read-notifikasi', [DashboardController::class, 'readNotifikasi']);
+
 require __DIR__.'/auth.php';
