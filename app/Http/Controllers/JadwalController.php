@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
+use Carbon\Carbon;
 use App\Models\Jadwal;
 use Illuminate\Http\Request;
-use Alert;
 
 class JadwalController extends Controller
 {
@@ -27,7 +28,8 @@ class JadwalController extends Controller
         $jadwals = Jadwal::where('created_at', '>=', $date_jadwal)
             ->where('created_at', '<=', $final)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get();       
+
         return response()->json(['jadwal' => view('jadwal.table')->with('jadwals', $jadwals)->render()]);
     }
 

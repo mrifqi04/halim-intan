@@ -277,6 +277,7 @@
 
     <script>
         $(document).ready(function() {
+            check_jadwals()
             get_notification()
         })
 
@@ -288,8 +289,7 @@
                 cache: false,
                 success: function(res) { 
                     var len = 0
-                    len = res.length;                                      
-                    console.log(len)
+                    len = res.length;                                                          
                     if (len > 0) {
                         let data = ''
                         res.forEach((item) => {
@@ -335,6 +335,19 @@
             })
             location.reload()
         })
+
+        function check_jadwals()
+        {
+            $.ajax({
+                url: '/check-jadwals',    
+                method: 'post',         
+                dataType: 'json',                                     
+                cache: false,
+                success: function(res) { 
+                    console.log(res) 
+                }                
+            })            
+        }
     </script>
 
     @yield('script')

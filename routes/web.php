@@ -56,5 +56,6 @@ Route::resource('users', UserController::class);
 
 Route::get('get-notifikasi', [DashboardController::class, 'notifikasi']);
 Route::post('read-notifikasi', [DashboardController::class, 'readNotifikasi']);
+Route::post('check-jadwals', [DashboardController::class, 'checkJadwal']);
 
 require __DIR__.'/auth.php';

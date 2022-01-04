@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Fus;
 use App\Models\Jadwal;
 use Illuminate\Http\Request;
@@ -66,5 +67,24 @@ class DashboardController extends Controller
             $jadwal->notifikasi = 2;
             $jadwal->save();
         }
+    }
+
+    public function checkJadwal()
+    {
+        $jadwals = Jadwal::whereNull('notifikasi')->get();        
+
+        $date = Carbon::now();
+        $now_date = $date->toDateString();
+
+        foreach ($jadwals as $jadwal) {
+            $get_jadwal = $jadwal->jadwal_fus;
+            if ($get_jadwal == $now_date) {
+                $jadwal->notifikasi = 1;
+                $jadwal->save();
+            }
+        }
+
+        return response()->json($jadwals);
+
     }
 }
