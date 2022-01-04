@@ -94,7 +94,7 @@ class ValidasiController extends Controller
         $date_validasi = $request->date_validasi;
         $final = $request->final;
         
-        return Excel::download(new MunirExport($date_validasi, $final), 'data.xlsx');
+        return Excel::download(new MunirExport($date_validasi, $final), 'data_validasi.xlsx');
     }
 
     /**

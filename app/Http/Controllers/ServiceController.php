@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
 use Alert;
+use App\Exports\ServiceExport;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ServiceController extends Controller
 {
@@ -117,6 +119,14 @@ class ServiceController extends Controller
         Alert::success('Success', 'Service berhasil diupdate');
 
         return redirect('services');    
+    }
+
+    public function export(Request $request)
+    {
+        $date_validasi = $request->date_validasi;
+        $final = $request->final;
+        
+        return Excel::download(new ServiceExport($date_validasi, $final), 'data_service.xlsx');
     }
 
     /**

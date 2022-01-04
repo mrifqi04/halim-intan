@@ -39,6 +39,7 @@ Route::patch('fus/ajukan/{id}', [FusController::class, 'ajukan']);
 
 Route::resource('services', ServiceController::class);
 Route::get('table-services', [ServiceController::class, 'table']);
+Route::post('export-service', [ServiceController::class, 'export']);
 
 Route::resource('profile', ProfileController::class);
 Route::resource('validasi', ValidasiController::class);

@@ -20,7 +20,7 @@ $role = Auth::user()->role_id;
             <th scope="col">
                 {!! Form::open([
                 'before' => 'csrf',
-                'url' => 'export-validasi',
+                'url' => 'export-service',
                 'method' => 'post'
                 ]) !!}
                 <input type="hidden" name="date_validasi" value="{{ $date_validasi }}">
