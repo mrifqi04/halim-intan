@@ -48,9 +48,8 @@ $role = Auth::user()->role_id;
             <td class="align-middle">
                 <button type="button" class="btn btn-primary btn-sm" id="edit-item"
                     data-item-id="{{ $service->id }}">edit</button>
-                <button class="btn btn-danger btn-sm" data-toggle="modal"
-                    data-target="#deleteConfirm{{$service->id}}">Hapus</button>
-                <div class="modal fade" id="deleteConfirm{{$service->id}}" tabindex="-1" role="dialog"
+                <button class="btn btn-danger btn-sm" onclick="onDelete({{ $service->id }})">Hapus</button>
+                {{-- <div class="modal fade" id="deleteConfirm{{$service->id}}" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
@@ -76,7 +75,7 @@ $role = Auth::user()->role_id;
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </td>
             @elseif ($role == 4)
             <td class="align-middle word-break"></td>
@@ -91,5 +90,31 @@ $role = Auth::user()->role_id;
 </table>
 
 <script>
-    $('#table_service').DataTable();
+    $(document).ready(function() {
+        $('#table_service').DataTable();
+    })
+
+    function onDelete(id) {
+        swal.fire({
+            title: "Hapus",
+            text: `Apa anda yakin ingin menghapus item ini?`,
+            type: "error",
+            showCancelButton: true,
+            closeOnConfirm: true,
+            showLoaderOnConfirm: true,            
+            confirmButtonText: "Yes, delete it!",
+        })
+        .then(function(isConfirm) {                                
+                if (isConfirm.value == true) {                                                        
+                        $.ajax({
+                            url: `/services/${id}`,              
+                            method: 'DELETE',                                                 
+                            dataType: 'json',
+                            cache: false,                                                                      
+                        }).then(
+                            location.reload()
+                        )                                 
+                }
+           })
+    }
 </script>

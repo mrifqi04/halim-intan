@@ -19,15 +19,32 @@ class ValidasiController extends Controller
     public function index(Request $request)
     {
         $date_validasi = $request->date_validasi;
+        $role_user = $request->role_user;
         $time = strtotime($date_validasi);
         $final = date("Y-m-d", strtotime("+1 month", $time));
 
         if ($date_validasi) {
-            $fuses = Fus::where('is_ajukan', 1)
-                ->where('created_at', '>=', $date_validasi)
-                ->where('created_at', '<=', $final)
-                ->orderBy('status_approve', 'asc')
-                ->get();
+            if ($role_user == 3) {
+                $fuses = Fus::where('is_ajukan', 1)
+                    ->where('created_at', '>=', $date_validasi)
+                    ->where('created_at', '<=', $final)                    
+                    ->orderBy('status_approve', 'asc')
+                    ->get();
+            } else if ($role_user == 4) {
+                $fuses = Fus::where('is_ajukan', 1)
+                    ->where('created_at', '>=', $date_validasi)
+                    ->where('created_at', '<=', $final)
+                    ->where('status_approve', 'Approved')
+                    ->orderBy('status_approve', 'asc')
+                    ->get();
+            } else if ($role_user == 5) {
+                $fuses = Fus::where('is_ajukan', 1)
+                    ->where('created_at', '>=', $date_validasi)
+                    ->where('created_at', '<=', $final)
+                    ->where('status_approve', 'Rejected')
+                    ->orderBy('status_approve', 'asc')
+                    ->get();
+            }
 
             return response()->json(['validasi' => view('validasi.table')->with([
                 'fuses' => $fuses,
@@ -93,8 +110,9 @@ class ValidasiController extends Controller
     {
         $date_validasi = $request->date_validasi;
         $final = $request->final;
-        
-        return Excel::download(new MunirExport($date_validasi, $final), 'data_validasi.xlsx');
+        $status = $request->status;
+
+        return Excel::download(new MunirExport($date_validasi, $final, $status), 'data_validasi.xlsx');
     }
 
     /**

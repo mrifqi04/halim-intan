@@ -29,35 +29,7 @@
             <td class="align-middle">
                 <button type="button" class="btn btn-primary btn-sm" id="edit-item"
                     data-item-id="{{ $jadwal->id }}">edit</button>
-                <button class="btn btn-danger btn-sm" data-toggle="modal"
-                    data-target="#deleteConfirm{{$jadwal->id}}">Hapus</button>
-                <div class="modal fade" id="deleteConfirm{{$jadwal->id}}" tabindex="-1" role="dialog"
-                    aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel">Hapus</h4>
-                            </div>
-                            <div class="modal-body">
-                                Apakah anda yakin ingin menghapus item ini ?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                {!! Form::open([
-                                'method' => 'DELETE',
-                                'url' => ['/jadwals', $jadwal->id],
-                                'style' => 'display:inline'
-                                ]) !!}
-                                {!! Form::button('Delete', array(
-                                'type' => 'submit',
-                                'class' => 'btn btn-danger btn-sm',
-                                'title' => 'Confirm Delete'
-                                )) !!}
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <button class="btn btn-danger btn-sm" onclick="onDelete({{ $jadwal->id }})">Hapus</button>                
             </td>
         </tr>
         @endforeach
@@ -65,5 +37,31 @@
 </table>
 
 <script>
-    $('#table_jadwals').DataTable();
+    $(document).ready(function() {
+        $('#table_jadwals').DataTable();
+    })
+
+    function onDelete(id) {
+        swal.fire({
+            title: "Hapus",
+            text: `Apa anda yakin ingin menghapus item ini?`,
+            type: "error",
+            showCancelButton: true,
+            closeOnConfirm: true,
+            showLoaderOnConfirm: true,            
+            confirmButtonText: "Yes, delete it!",
+        })
+        .then(function(isConfirm) {                                
+                if (isConfirm.value == true) {                                                        
+                        $.ajax({
+                            url: `/jadwals/${id}`,              
+                            method: 'DELETE',                                                 
+                            dataType: 'json',
+                            cache: false,                                                                      
+                        }).then(
+                            location.reload()
+                        )                                 
+                }
+           })
+    }
 </script>

@@ -32,12 +32,16 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center my-5" href="/dashboard">
+                {{-- <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div> --}}
+                <img src="{{ URL::asset('img/Nissan.png') }}" width="150px" alt="">
             </a>
+            <div class="sidebar-brand d-flex align-items-center justify-content-center my-2">
+                <span class="text-light">PT. INTAN HALIM JAKARTA</span>
+            </div>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -139,7 +143,8 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter"><span id="get-total-notif">0</span></span>
+                                <span class="badge badge-danger badge-counter"><span
+                                        id="get-total-notif">0</span></span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -148,14 +153,15 @@
                                     <h6 class="dropdown-header col-md-6">
                                         Notifications Center
                                     </h6>
-                                    <h6 class="dropdown-header col-md-6 text-right" id="read-notif" style="cursor: pointer">
+                                    <h6 class="dropdown-header col-md-6 text-right" id="read-notif"
+                                        style="cursor: pointer">
                                         Read All
                                     </h6>
                                 </div>
                                 <div id="all-notifications">
                                     <a class="dropdown-item text-center p-3">
                                         <h4 class="text-muted">Tidak ada notifikasi</h4>
-                                    </a>                                    
+                                    </a>
                                 </div>
                             </div>
                         </li>
@@ -246,6 +252,8 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ URL::asset('admin/vendor/jquery/jquery.min.js') }}"></script>
@@ -344,7 +352,7 @@
                 dataType: 'json',                                     
                 cache: false,
                 success: function(res) { 
-                    console.log(res) 
+                    
                 }                
             })            
         }

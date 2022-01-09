@@ -10,8 +10,7 @@
             <th scope="col">Alamat</th>
             <th scope="col">Catatan</th>
             <th scope="col">
-                <button class="btn btn-success rounded" data-toggle="modal"
-                    data-target="#tambah-jadwal">Tambah</button>
+                <button class="btn btn-success rounded" data-toggle="modal" data-target="#tambah-jadwal">Tambah</button>
             </th>
         </tr>
     </thead>
@@ -29,9 +28,8 @@
             <td class="align-middle">
                 <button type="button" class="btn btn-primary btn-sm" id="edit-item"
                     data-item-id="{{ $fus->id }}">edit</button>
-                <button class="btn btn-danger btn-sm" data-toggle="modal"
-                    data-target="#deleteConfirm{{$fus->id}}">Hapus</button>
-                <div class="modal fade" id="deleteConfirm{{$fus->id}}" tabindex="-1" role="dialog"
+                <button class="btn btn-danger btn-sm" onclick="onDelete({{ $fus->id }})">Hapus</button>
+                {{-- <div class="modal fade" id="deleteConfirm{{$fus->id}}" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
@@ -57,11 +55,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 @if ($fus->is_ajukan == 0)
-                <button class="btn btn-warning btn-sm" data-toggle="modal"
-                    data-target="#ajukanConfirm{{$fus->id}}">Ajukan</button>
-                <div class="modal fade" id="ajukanConfirm{{$fus->id}}" tabindex="-1" role="dialog"
+                <button class="btn btn-warning btn-sm" onclick="onAjukan({{ $fus->id }})">Ajukan</button>
+                {{-- <div class="modal fade" id="ajukanConfirm{{$fus->id}}" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
@@ -87,7 +84,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 @endif
 
             </td>
@@ -97,5 +94,55 @@
 </table>
 
 <script>
-    $('#table_fus').DataTable();
+    $(document).ready(function() {
+        $('#table_fus').DataTable();
+    })
+
+    function onDelete(id) {
+        swal.fire({
+            title: "Hapus",
+            text: `Apa anda yakin ingin menghapus item ini?`,
+            type: "error",
+            showCancelButton: true,
+            closeOnConfirm: true,
+            showLoaderOnConfirm: true,            
+            confirmButtonText: "Yes, delete it!",
+        })
+        .then(function(isConfirm) {                                
+                if (isConfirm.value == true) {                                                        
+                        $.ajax({
+                            url: `/fuses/${id}`,              
+                            method: 'DELETE',                                                 
+                            dataType: 'json',
+                            cache: false,                                                                      
+                        }).then(
+                            location.reload()
+                        )                                 
+                }
+           })
+    }
+
+    function onAjukan(id) {
+        swal.fire({
+            title: "Ajukan",
+            text: `Apa anda yakin ingin mengajukan item ini?`,
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: true,
+            showLoaderOnConfirm: true,            
+            confirmButtonText: "Ya, Ajukan!",
+        })
+        .then(function(isConfirm) {                                
+                if (isConfirm.value == true) {                                                        
+                        $.ajax({
+                            url: `/fus/ajukan/${id}`,              
+                            method: 'PATCH',                                                 
+                            dataType: 'json',
+                            cache: false,                                                                      
+                        }).then(
+                            location.reload()
+                        )                                 
+                }
+           })
+    }
 </script>

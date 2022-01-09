@@ -12,6 +12,7 @@ $role = Auth::user()->role_id;
             <th scope="col">No Telp</th>
             <th scope="col">Alamat</th>
             <th scope="col">Catatan</th>
+            <th scope="col">Status</th>
             <th scope="col">
                 {!! Form::open([
                 'before' => 'csrf',
@@ -20,6 +21,7 @@ $role = Auth::user()->role_id;
                 ]) !!}
                 <input type="hidden" name="date_validasi" value="{{ $date_validasi }}">
                 <input type="hidden" name="final" value="{{ $final }}">
+                <input type="hidden" name="status" value="{{ Auth::user()->role_id == 4 ? "Approved" : "Rejected"}}">
                 <button type="submit" class="btn btn-success rounded">Download</button>
                 {!! Form::close() !!}
             </th>
@@ -36,29 +38,27 @@ $role = Auth::user()->role_id;
             <td class="align-middle word-break no_telp">{{ $fus->no_telp }}</td>
             <td class="align-middle word-break alamat">{{ $fus->alamat }}</td>
             <td class="align-middle word-break catatan">{{ $fus->catatan }}</td>
+
             @if ($role == 3)
             <td class="align-middle">
                 @if ($fus->status_approve == null)
                 <button class="btn btn-primary btn-sm" onclick="onApprove({{ $fus->id }})">Approve</button>
-
                 <button class="btn btn-danger btn-sm" onclick="onReject({{ $fus->id }})">Reject</button>
                 @else
                 <span class="badge badge-{{ $fus->status_approve == 'Approved' ? 'success' : 'danger'}}">{{
                     $fus->status_approve }}</span>
                 @endif
             </td>
-            <div id="approve">
-                @include('validasi.approve')
-            </div>
+            <td></td>
             @else
-            <td class="align-middle word-break"></td>
+            <td><span class="badge badge-{{ $fus->status_approve == 'Approved' ? 'success' : 'danger'}}">{{
+                    $fus->status_approve }}</span></td>
             @endif
         </tr>
-        
+
         @endforeach
     </tbody>
 </table>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
 <script>
     $(document).ready(function() {
@@ -98,7 +98,7 @@ $role = Auth::user()->role_id;
         swal.fire({
             title: "Apa anda yakin?",
             text: `reject item ini.`,
-            type: "success",
+            type: "error",
             showCancelButton: true,
             closeOnConfirm: true,
             showLoaderOnConfirm: true,            

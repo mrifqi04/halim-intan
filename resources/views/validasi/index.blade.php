@@ -11,7 +11,7 @@
         $date_from = date('Y-m-d', strtotime("-2 weeks", strtotime($date_to)));        
     ?>
     <input type="date" class="form-control" name="start" id="date_validasi" value="{{ $date_from }}"
-        data-date-format="dd-mm-yyyy" onchange="validasi_filter()">
+        data-date-format="dd-mm-yyyy">
 </div>
 
 <div class="container-fluid mt-5" id="validasi_table">
@@ -30,11 +30,13 @@
 function validasi_filter()
     {
         const date_validasi = $('#date_validasi').val()                
+        const role_user = '{{ Auth::user()->role_id }}'
         
         $.ajax({
             url: '/validasi',            
             data: {
-                date_validasi
+                date_validasi,
+                role_user
             },
             dataType: 'json',
             cache: false,
