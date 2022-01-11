@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use App\Models\Fus;
 use Illuminate\Http\Request;
-use Alert;
+use Auth;
 
 class FusController extends Controller
 {
@@ -54,7 +55,8 @@ class FusController extends Controller
 
         $requestData = $request->all();
 
-        Fus::create($requestData);
+        $fus = Fus::create($requestData);
+        $fus->update(['created_by' => Auth::user()->id]);
 
         Alert::success('Success', 'FUS berhasil ditambahkan');
 

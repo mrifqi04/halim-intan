@@ -22,28 +22,29 @@ class DashboardController extends Controller
 
     public function dataSummary(Request $request)
     {
-        $date_summary = $request->date_summary;
-
-
-        $time = strtotime($date_summary);
+        $month = $request->month;
+        $time = strtotime('2022-' . $month . '-01');
+        $start = date("Y-m-d", strtotime('2022-' . $month . '-01'));        
         $final = date("Y-m-d", strtotime("+1 month", $time));        
-
-        if ($date_summary) {
+        
+        if ($month) {
             $fus = DB::table('fuses as f')
-                ->select(array('f.nama_customer', DB::raw('COUNT(f.id) as total')))
-                ->where('status_approve', 'Rejected')
-                ->where('created_at', '>=', $date_summary)
-                ->where('created_at', '<=', $final)
-                ->groupBy('nama_customer')
+                ->select(array(DB::raw('COUNT(f.id) as total'), 'u.name'))                
+                ->where('f.status_approve', 'Rejected')
+                ->where('f.created_at', '>=', $start)
+                ->where('f.created_at', '<=', $final)
+                ->leftJoin('users as u', 'f.created_by' , '=', 'u.id')
+                ->groupBy('f.created_by')                
                 ->orderBy('total', 'asc')
                 ->get();
         } else {
-            $fus = DB::table('fuses as f')
-                ->select(array('f.nama_customer', DB::raw('COUNT(f.id) as total')))
-                ->where('status_approve', 'Rejected')
-                ->groupBy('nama_customer')
+            $fus = DB::table('fuses as f')                
+                ->select(array(DB::raw('COUNT(f.id) as total'), 'u.name'))
+                ->where('f.status_approve', 'Rejected')
+                ->leftJoin('users as u', 'f.created_by' , '=', 'u.id')
+                ->groupBy('f.created_by')
                 ->orderBy('total', 'asc')
-                ->get();
+                ->get();            
         }
 
         return response()->json($fus);

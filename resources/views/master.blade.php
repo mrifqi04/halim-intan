@@ -91,6 +91,13 @@
             </li>
             @endif
 
+            @if ($role == 1)
+            <li class="nav-item">
+                <a class="nav-link ml-4" href="{{ route('users.index') }}">
+                    <span>Users</span></a>
+            </li>            
+            @endif
+
 
         </ul>
         <!-- End of Sidebar -->

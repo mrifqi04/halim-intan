@@ -18,6 +18,12 @@ class Fus extends Model
         'alamat',
         'catatan',
         'is_ajukan',
-        'status_approve'
+        'status_approve',
+        'created_by'
     ];
+
+    function user()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
 }

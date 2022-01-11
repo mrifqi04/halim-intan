@@ -39,7 +39,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
+    {                
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -50,7 +50,7 @@ class UserController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::create($request->password),
+            'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
         ]);
 

@@ -10,12 +10,26 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Keluhan Customer Per Service Advisor</h6>
             <div class="float-right">
-                <?php
+                {{-- <?php
                     $date_to = date('d-m-Y');
                     $date_from = date('d-m-Y', strtotime("-3 months", strtotime($date_to)));
                 ?>
                 <input type="date" class="form-control" name="start" id="date_summary"
-                    value="{{ date('d-m-Y') }}" data-date-format="dd-mm-yyyy">
+                    value="{{ date('d-m-Y') }}" data-date-format="dd-mm-yyyy"> --}}
+                <select name="month" class="form-control" id="month">
+                    <option value="1">Januari</option>
+                    <option value="2">Febuari</option>
+                    <option value="3">Maret</option>
+                    <option value="4">April</option>
+                    <option value="5">Mei</option>
+                    <option value="6">Juni</option>
+                    <option value="7">Juli</option>
+                    <option value="8">Agustus</option>
+                    <option value="9">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                </select>
             </div>
         </div>
         <div class="card-body">
@@ -32,19 +46,20 @@
 @section('script')
 <script>
     $(document).ready(function() {
-        $('#date_summary').on('change', function() {
-            const date_summary = $(this).val()
-            get_chart(date_summary)           
+        $('#month').on('change', function() {
+            const month = $(this).val()            
+            get_chart(month)    
+            
         })
                   
         get_chart()      
     })
 
-    function get_chart(date_summary) {        
+    function get_chart(month) {        
         $.ajax({
             url: '/data-summary',
             data:  {
-                date_summary: date_summary
+                month: month
             },
             dataType: 'json',                                     
             cache: false,
@@ -52,10 +67,9 @@
                 
                 let customer = []
                 let total = []
-                let max = 0
-                
+                let max = 0                
                 $.each(res, function(index, value) {
-                    customer.push(value.nama_customer)
+                    customer.push(value.name)
                     total.push(value.total)
                     max += value.total
                 })
