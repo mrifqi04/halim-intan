@@ -27,38 +27,40 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('summary', [DashboardController::class, 'summary']);
 
-Route::get('dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth'])->name('dashboard');
-Route::get('summary', [DashboardController::class, 'summary']);
-
-Route::resource('jadwals', JadwalController::class);
-Route::get('table-jadwals', [JadwalController::class, 'table']);
-Route::resource('fuses', FusController::class);
-Route::get('table-fus', [FusController::class, 'table']);
+    Route::resource('jadwals', JadwalController::class);
+    Route::get('table-jadwals', [JadwalController::class, 'table']);
+    Route::resource('fuses', FusController::class);
+    Route::get('table-fus', [FusController::class, 'table']);
 
 
-Route::patch('fus/ajukan/{id}', [FusController::class, 'ajukan']);
+    Route::patch('fus/ajukan/{id}', [FusController::class, 'ajukan']);
 
-Route::resource('services', ServiceController::class);
-Route::get('table-services', [ServiceController::class, 'table']);
-Route::post('export-service', [ServiceController::class, 'export']);
+    Route::resource('services', ServiceController::class);
+    Route::get('table-services', [ServiceController::class, 'table']);
+    Route::post('export-service', [ServiceController::class, 'export']);
 
-Route::resource('profile', ProfileController::class);
-Route::resource('validasi', ValidasiController::class);
-Route::post('export-validasi', [ValidasiController::class, 'export']);
+    Route::resource('profile', ProfileController::class);
+    Route::resource('validasi', ValidasiController::class);
+    Route::post('export-validasi', [ValidasiController::class, 'export']);
 
-Route::post('fus/approve/{id}', [ValidasiController::class, 'approve']);
-Route::post('fus/reject/{id}', [ValidasiController::class, 'reject']);
+    Route::post('fus/approve/{id}', [ValidasiController::class, 'approve']);
+    Route::post('fus/reject/{id}', [ValidasiController::class, 'reject']);
 
-Route::get('ubah-password', [ProfileController::class, 'ubahPassword']);
-Route::post('ubah-password', [ProfileController::class, 'storePassword']);
+    Route::get('ubah-password', [ProfileController::class, 'ubahPassword']);
+    Route::post('ubah-password', [ProfileController::class, 'storePassword']);
 
-Route::get('data-summary', [DashboardController::class, 'dataSummary']);
+    Route::get('data-summary', [DashboardController::class, 'dataSummary']);
 
-Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class);
 
-Route::get('get-notifikasi', [DashboardController::class, 'notifikasi']);
-Route::post('read-notifikasi', [DashboardController::class, 'readNotifikasi']);
-Route::post('check-jadwals', [DashboardController::class, 'checkJadwal']);
+    Route::get('get-notifikasi', [DashboardController::class, 'notifikasi']);
+    Route::post('read-notifikasi', [DashboardController::class, 'readNotifikasi']);
+    Route::post('check-jadwals', [DashboardController::class, 'checkJadwal']);
+});
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
