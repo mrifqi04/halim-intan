@@ -53,6 +53,7 @@ $role = Auth::user()->role_id;
             @else
             <td><span class="badge badge-{{ $fus->status_approve == 'Approved' ? 'success' : 'danger'}}">{{
                     $fus->status_approve }}</span></td>
+            <td></td>
             @endif
         </tr>
 

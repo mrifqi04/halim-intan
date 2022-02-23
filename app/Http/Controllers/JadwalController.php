@@ -126,4 +126,20 @@ class JadwalController extends Controller
 
         return redirect('jadwals');
     }
+
+    public function updateStatus(Request $request)
+    {
+        $status = $request->status;
+        $id = $request->id;
+
+        if ($status == true) {
+            $value = 1;            
+        } else {
+            $value = 0;            
+        }
+
+        $jadwal = Jadwal::find($id);
+        $jadwal->is_status = $value;
+        $jadwal->save();        
+    }
 }

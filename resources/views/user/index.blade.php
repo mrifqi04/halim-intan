@@ -18,7 +18,7 @@
                     <th scope="col">Nama</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
-
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -28,12 +28,51 @@
                     <td class="align-middle">{{ $user->name }}</td>
                     <td class="align-middle">{{ $user->email }}</td>
                     <td class="align-middle">{{ $user->role->role_name }}</td>
+                    @if (Auth::user()->role_id == 1 && $user->id != 1)
+                    <td class="align-middle">
+                        <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                    @else
+                    <td>
+                        <button class="btn btn-danger" onclick="onDelete({{ $user->id }})">delete</button>
+                    </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    function onDelete(id) {
+        swal.fire({
+            title: "Hapus",
+            text: `Apa anda yakin ingin menghapus user ini?`,
+            type: "error",
+            showCancelButton: true,
+            closeOnConfirm: true,
+            showLoaderOnConfirm: true,            
+            confirmButtonText: "Yes, delete it!",
+        })
+        .then(function(isConfirm) {                                
+                if (isConfirm.value == true) {                                                        
+                        $.ajax({
+                            url: `/users/${id}`,              
+                            method: 'DELETE',                                                 
+                            dataType: 'json',
+                            cache: false,                                                                      
+                        }).then(
+                            location.reload()
+                        )                                 
+                }
+           })
+    }
+</script>
 
 @include('user.form')
 

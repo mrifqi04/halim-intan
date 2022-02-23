@@ -54,7 +54,7 @@
                 <a class="nav-link ml-4" href="/dashboard">
                     <span>Home</span></a>
             </li>
-            @if ($role == 1 || $role == 2)
+            @if ($role == 1 || $role == 2|| $role == 3)
             <li class="nav-item">
                 <a class="nav-link ml-4" href="{{ route('jadwals.index') }}">
                     <span>Jadwal</span></a>
@@ -91,7 +91,7 @@
             </li>
             @endif
 
-            @if ($role == 1)
+            @if ($role == 1 || $role == 3)
             <li class="nav-item">
                 <a class="nav-link ml-4" href="{{ route('users.index') }}">
                     <span>Users</span></a>

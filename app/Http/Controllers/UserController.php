@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -16,7 +17,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('role')->get();
+        $users = User::with('role')
+        ->orderBy('role_id')
+        ->get();
         $roles = Role::all();        
 
         return view('user.index', compact('users', 'roles'));
@@ -99,6 +102,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+
+        Alert::success('User berhasil dihapus');
+
+        return redirect('users');
     }
 }

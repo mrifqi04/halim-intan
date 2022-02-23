@@ -9,9 +9,11 @@
             <th scope="col">No Telp</th>
             <th scope="col">Alamat</th>
             <th scope="col">Jadwal FUS</th>
+            <th scope="col">Status</th>
             <th scope="col">
-                <button class="btn btn-success rounded" data-toggle="modal"
-                    data-target="#tambah-jadwal">Tambah</button>
+                @if (Auth::user()->id == 2)
+                <button class="btn btn-success rounded" data-toggle="modal" data-target="#tambah-jadwal">Tambah</button>
+                @endif
             </th>
         </tr>
     </thead>
@@ -26,10 +28,18 @@
             <td class="align-middle word-break no_telp">{{ $jadwal->no_telp }}</td>
             <td class="align-middle word-break alamat">{{ $jadwal->alamat }}</td>
             <td class="align-middle word-break jadwal_fus">{{ $jadwal->jadwal_fus }}</td>
+            <td class="text-center">
+                <input class="form-check-input" type="checkbox" {{ $jadwal->is_status == 1 ? 'checked' : '' }}
+                {{ Auth::user()->role_id == 2 ? "" : 'disabled' }}
+                onclick="update_jadwal_status({{ $jadwal->id }})" id="input_status_jadwal">
+                <label class="form-check-label" for="flexCheckDefault">
+
+                </label>
+            </td>
             <td class="align-middle">
                 <button type="button" class="btn btn-primary btn-sm" id="edit-item"
                     data-item-id="{{ $jadwal->id }}">edit</button>
-                <button class="btn btn-danger btn-sm" onclick="onDelete({{ $jadwal->id }})">Hapus</button>                
+                <button class="btn btn-danger btn-sm" onclick="onDelete({{ $jadwal->id }})">Hapus</button>
             </td>
         </tr>
         @endforeach
@@ -38,8 +48,40 @@
 
 <script>
     $(document).ready(function() {
-        $('#table_jadwals').DataTable();
+        $('#table_jadwals').DataTable();                
     })
+
+    function update_jadwal_status(id)
+    {
+        var status = $('#input_status_jadwal').prop("checked");        
+        
+        swal.fire({
+            title: "Update",
+            text: `Apa anda yakin ingin mengupdate item ini?`,
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: true,
+            showLoaderOnConfirm: true,            
+            confirmButtonText: "Yes, update it!",
+        })
+        .then(function(isConfirm) {                                
+                if (isConfirm.value == true) {                                                        
+                        $.ajax({
+                            url: '/update_status_jadwal',              
+                            method: 'POST',                                                 
+                            dataType: 'json',
+                            data: {
+                                status,
+                                id
+                            },
+                            cache: false,                                                                      
+                        })
+                        // .then(
+                        //     location.reload()
+                        // )                                 
+                }
+           })
+    }
 
     function onDelete(id) {
         swal.fire({

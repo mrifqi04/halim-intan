@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('table-jadwals', [JadwalController::class, 'table']);
     Route::resource('fuses', FusController::class);
     Route::get('table-fus', [FusController::class, 'table']);
+    Route::post('update_status_jadwal', [JadwalController::class, 'updateStatus']);
 
 
     Route::patch('fus/ajukan/{id}', [FusController::class, 'ajukan']);

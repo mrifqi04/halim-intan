@@ -26,7 +26,7 @@
                 <th scope="col">No Telp</th>
                 <th scope="col">Alamat</th>
                 <th scope="col">Jadwal FUS</th>
-                <th scope="col">
+                <th scope="col">                    
                     <button class="btn btn-success rounded" data-toggle="modal"
                         data-target="#tambah-jadwal">Tambah</button>
                 </th>
