@@ -11,7 +11,7 @@
             <th scope="col">Jadwal FUS</th>
             <th scope="col">Status</th>
             <th scope="col">
-                @if (Auth::user()->id == 2)
+                @if (Auth::user()->role_id == 2)
                 <button class="btn btn-success rounded" data-toggle="modal" data-target="#tambah-jadwal">Tambah</button>
                 @endif
             </th>
@@ -31,15 +31,17 @@
             <td class="text-center">
                 <input class="form-check-input" type="checkbox" {{ $jadwal->is_status == 1 ? 'checked' : '' }}
                 {{ Auth::user()->role_id == 2 ? "" : 'disabled' }}
-                onclick="update_jadwal_status({{ $jadwal->id }})" id="input_status_jadwal">
+                onclick="update_jadwal_status({{ $jadwal->id }}, {{ $jadwal->is_status }})" id="input_status_jadwal">
                 <label class="form-check-label" for="flexCheckDefault">
 
                 </label>
             </td>
-            <td class="align-middle">
-                <button type="button" class="btn btn-primary btn-sm" id="edit-item"
-                    data-item-id="{{ $jadwal->id }}">edit</button>
-                <button class="btn btn-danger btn-sm" onclick="onDelete({{ $jadwal->id }})">Hapus</button>
+            <td class="align-middle">                
+                @if (Auth::user()->role_id != 3)
+                    <button type="button" class="btn btn-primary btn-sm" id="edit-item"
+                        data-item-id="{{ $jadwal->id }}">edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="onDelete({{ $jadwal->id }})">Hapus</button>                    
+                @endif
             </td>
         </tr>
         @endforeach
@@ -51,10 +53,8 @@
         $('#table_jadwals').DataTable();                
     })
 
-    function update_jadwal_status(id)
-    {
-        var status = $('#input_status_jadwal').prop("checked");        
-        
+    function update_jadwal_status(id, status)
+    {                            
         swal.fire({
             title: "Update",
             text: `Apa anda yakin ingin mengupdate item ini?`,
@@ -76,9 +76,11 @@
                             },
                             cache: false,                                                                      
                         })
-                        // .then(
-                        //     location.reload()
-                        // )                                 
+                        .then(
+                            location.reload()
+                        )                                 
+                } else {
+                    location.reload()
                 }
            })
     }

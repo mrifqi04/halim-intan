@@ -129,13 +129,14 @@ class JadwalController extends Controller
 
     public function updateStatus(Request $request)
     {
+        // dd($request->status);
         $status = $request->status;
         $id = $request->id;
 
-        if ($status == true) {
-            $value = 1;            
-        } else {
+        if ($status == "1") {
             $value = 0;            
+        } else {
+            $value = 1;            
         }
 
         $jadwal = Jadwal::find($id);
